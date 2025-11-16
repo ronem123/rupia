@@ -1,14 +1,12 @@
 package com.ram.rupia.rupia.controller;
 
 import com.ram.rupia.rupia.dto.CustomerDTO;
+import com.ram.rupia.rupia.post_request.CustomerRequestBody;
 import com.ram.rupia.rupia.service.customer.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,6 +34,17 @@ public class CustomerController {
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDTO> getCustomer(@PathVariable("id") Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.getCustomerById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<CustomerDTO> createNewCustomer(@RequestBody CustomerRequestBody requestBody) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createNewCustomer(requestBody));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("id") Long id) {
+        customerService.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -1,6 +1,7 @@
 package com.ram.rupia.rupia.service.customer;
 
 import com.ram.rupia.rupia.dto.CustomerDTO;
+import com.ram.rupia.rupia.post_request.CustomerRequestBody;
 
 import java.util.List;
 
@@ -14,4 +15,8 @@ public interface CustomerService {
     List<CustomerDTO> getCustomers();
 
     CustomerDTO getCustomerById(Long id);
+
+    CustomerDTO createNewCustomer(CustomerRequestBody requestBody);
+
+    void deleteCustomer(Long id);
 }
