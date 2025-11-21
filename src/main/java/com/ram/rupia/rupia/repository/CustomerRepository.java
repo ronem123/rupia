@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
  *
  * @System: Apple M1 Pro
  */
-
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 }
