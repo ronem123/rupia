@@ -7,6 +7,8 @@ import com.ram.rupia.rupia.post_request.CustomerRequestBody;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 /**
  * Created by Ram Mandal on 19/11/2025
  *
@@ -14,19 +16,19 @@ import org.mapstruct.Mapping;
  */
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
-    //map the respective fields from entity with dto class
-    //if not provided it will try to see the same fields between entity and dto
-    @Mapping(target = "name", source = "entity.name")
-    @Mapping(target = "contact", source = "entity.contact")
+    //Single Object mapping
+    @Mapping(target = "customerStatus", source = "entity.status")
     CustomerDTO toCustomerDTO(Customer entity);
 
-    //map the respective fields from dto with entity class
-    @Mapping(target = "name", source = "dto.name")
-    @Mapping(target = "contact", source = "dto.contact")
+    @Mapping(target = "status", source = "dto.customerStatus")
     Customer toCustomer(CustomerDTO dto);
 
-    //Map the respective fields from CustomerRequestBody to Customer
-    @Mapping(target = "name", source = "body.name")
-    @Mapping(target = "contact", source = "body.contact")
+    // RequestBody to Entity (default status = PENDING)
+    @Mapping(target = "status", expression = "java(com.ram.rupia.rupia.enums.CustomerStatus.PENDING)")
     Customer toCustomer(CustomerRequestBody body);
+
+    //List Mapping
+    List<CustomerDTO> toCustomersDTO(List<Customer> customers);
+
+    List<Customer> toCustomers(List<CustomerDTO> customerDTOS);
 }

@@ -29,11 +29,13 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> getCustomers() {
         List<Customer> customers = customerRepository.findAll();
 
-        return customers
-                .stream()
-//                .map((customer) -> customerMapper.toCustomerDTO(customer))
-                .map(customerMapper::toCustomerDTO)
-                .toList();
+//        return customers
+//                .stream()
+////                .map((customer) -> customerMapper.toCustomerDTO(customer))
+//                .map(customerMapper::toCustomerDTO)
+//                .toList();
+
+        return customerMapper.toCustomersDTO(customers);
     }
 
     @Override

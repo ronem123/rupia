@@ -1,0 +1,16 @@
+package com.ram.rupia.rupia.enums;
+
+
+/**
+ * Created by Ram Mandal on 24/11/2025
+ *
+ * @System: Apple M1 Pro
+ */
+
+public enum CustomerStatus {
+    ACTIVE,
+    INACTIVE,
+    PENDING,
+    BLOCKED,
+    DEACTIVATED
+}
