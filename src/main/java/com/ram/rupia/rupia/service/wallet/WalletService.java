@@ -10,5 +10,4 @@ import com.ram.rupia.rupia.post_request.WalletRequestBody;
  * @System: Apple M1 Pro
  */
 public interface WalletService {
-    WalletDTO createWallet(WalletRequestBody body);
 }

@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Table(
         name = "wallet_tbl"
 )

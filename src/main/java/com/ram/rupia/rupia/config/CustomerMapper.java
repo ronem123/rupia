@@ -4,8 +4,7 @@ package com.ram.rupia.rupia.config;
 import com.ram.rupia.rupia.dto.CustomerDTO;
 import com.ram.rupia.rupia.entity.Customer;
 import com.ram.rupia.rupia.post_request.CustomerRequestBody;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+import org.mapstruct.*;
 
 import java.util.List;
 
@@ -26,6 +25,9 @@ public interface CustomerMapper {
     // RequestBody to Entity (default status = PENDING)
     @Mapping(target = "status", expression = "java(com.ram.rupia.rupia.enums.CustomerStatus.PENDING)")
     Customer toCustomer(CustomerRequestBody body);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateFromRequest(CustomerRequestBody body, @MappingTarget Customer entity);
 
     //List Mapping
     List<CustomerDTO> toCustomersDTO(List<Customer> customers);

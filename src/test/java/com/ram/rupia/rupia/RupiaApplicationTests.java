@@ -10,6 +10,7 @@ import com.ram.rupia.rupia.post_request.CustomerRequestBody;
 import com.ram.rupia.rupia.post_request.WalletRequestBody;
 import com.ram.rupia.rupia.repository.CustomerRepository;
 import com.ram.rupia.rupia.repository.WalletRepository;
+import com.ram.rupia.rupia.service.customer.CustomerServiceImpl;
 import com.ram.rupia.rupia.service.wallet.WalletServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import java.util.List;
 class RupiaApplicationTests {
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerServiceImpl customerService;
 
     @Autowired
     private WalletServiceImpl walletService;
@@ -36,8 +37,7 @@ class RupiaApplicationTests {
 
     @Test
     void customerRepositoryTest() {
-        List<Customer> customers = customerRepository.findAll();
-        List<CustomerDTO> customerDTOS = customerMapper.toCustomersDTO(customers);
+        List<CustomerDTO> customerDTOS = customerService.getCustomers();
         for (CustomerDTO dto : customerDTOS) {
             System.out.print("Customer : " + dto);
         }
@@ -46,29 +46,30 @@ class RupiaApplicationTests {
     @Test
     void registerNewCustomerTest() {
         CustomerRequestBody body = CustomerRequestBody.builder()
-                .name("Saanvi Mandal")
-                .gender(Gender.MALE)
-                .email("sanvi.mandal@gmail.com")
-                .contact("9812322343")
+                .name("Kusum Mandal")
+                .gender(Gender.FEMALE)
+                .email("kusum@gmail.com")
+                .contact("9845454334")
                 .address("Biratnagar 16, Nepal")
-                .idNumber("654321")
-                .birthDate(LocalDate.of(2025, 2, 11))
+                .idNumber("55555")
+                .birthDate(LocalDate.of(1995, 2, 11))
                 .build();
-        Customer customer = customerMapper.toCustomer(body);
 
-        customerRepository.save(customer);
+        customerService.createNewCustomer(body);
     }
 
     @Test
-    void createWalletTest() {
+    void approveCustomerAndCreateWalletTest() {
         //We are going to add a new wallet to the customer: 1
-        WalletRequestBody body = WalletRequestBody.builder()
-                .customerId(1L)
-                .walletBalance(BigDecimal.valueOf(2000.00))
-                .walletSize(2000)
-                .build();
+        boolean approved = customerService.approveCustomerRegistration(7L);
+        System.out.println("Customer approved and wallet created : " + approved);
+    }
 
-        walletService.createWallet(body);
+    @Test
+    void updateCustomerTest() {
+        CustomerRequestBody body = CustomerRequestBody.builder().gender(Gender.FEMALE).build();
+        CustomerDTO dto = customerService.updateCustomer(5L, body);
+        System.out.println("Updated Customer " + dto);
     }
 
 }

@@ -19,4 +19,10 @@ public interface CustomerService {
     CustomerDTO createNewCustomer(CustomerRequestBody requestBody);
 
     void deleteCustomer(Long id);
+
+    //method consumed by BO
+    Boolean approveCustomerRegistration(Long userId);
+
+    CustomerDTO updateCustomer(Long customerId, CustomerRequestBody body);
+
 }

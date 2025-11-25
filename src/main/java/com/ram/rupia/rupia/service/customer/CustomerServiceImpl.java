@@ -3,11 +3,16 @@ package com.ram.rupia.rupia.service.customer;
 import com.ram.rupia.rupia.config.CustomerMapper;
 import com.ram.rupia.rupia.dto.CustomerDTO;
 import com.ram.rupia.rupia.entity.Customer;
+import com.ram.rupia.rupia.entity.Wallet;
+import com.ram.rupia.rupia.enums.CustomerStatus;
 import com.ram.rupia.rupia.post_request.CustomerRequestBody;
 import com.ram.rupia.rupia.repository.CustomerRepository;
+import com.ram.rupia.rupia.repository.WalletRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -23,6 +28,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+
+    private final WalletRepository walletRepository;
 
 
     @Override
@@ -62,5 +69,51 @@ public class CustomerServiceImpl implements CustomerService {
             throw new IllegalArgumentException("Sorry! but customer with " + id + " does not exist");
         }
         customerRepository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public Boolean approveCustomerRegistration(Long userId) {
+        Customer customer = customerRepository.findById(userId).orElseThrow(() ->
+                new RuntimeException("Sorry ! but user not found"));
+
+        boolean wasWalletCreated = false;
+
+        if (customer.getWallet() == null) {
+            Wallet newWallet = Wallet.builder()
+                    .customer(customer)
+                    .walletSize(2000)
+                    .walletBalance(BigDecimal.ZERO)
+                    .build();
+
+            walletRepository.save(newWallet);
+            wasWalletCreated = true;
+        }
+
+        /*
+         * We do not need to explicitly save the customer, as we are under the @Transactional state
+         * whenever any update happens to the customer, dirty checking will be there, and if any changes
+         * It will automatically update it.
+         * Note: since we are working on the same customer object. So, no new row will be inserted. JPA will manage it
+         * automatically. like this
+         * UPDATE customer_tbl
+         * SET customer_status = 'ACTIVE'
+         * WHERE id = <customer_id>;
+         */
+        if (customer.getStatus() == CustomerStatus.PENDING) {
+            customer.setStatus(CustomerStatus.ACTIVE);
+        }
+        return wasWalletCreated;
+
+    }
+
+    @Transactional
+    @Override
+    public CustomerDTO updateCustomer(Long customerId, CustomerRequestBody body) {
+        Customer existingCustomer = customerRepository.findById(customerId).orElseThrow(()
+                -> new RuntimeException("Sorry ! customer not found"));
+        customerMapper.updateFromRequest(body, existingCustomer);
+
+        return customerMapper.toCustomerDTO(existingCustomer);
     }
 }
