@@ -3,6 +3,7 @@ package com.ram.rupia.rupia;
 import com.ram.rupia.rupia.config.CustomerMapper;
 import com.ram.rupia.rupia.config.WalletMapper;
 import com.ram.rupia.rupia.dto.CustomerDTO;
+import com.ram.rupia.rupia.dto.CustomerWithWalletDTO;
 import com.ram.rupia.rupia.entity.Customer;
 import com.ram.rupia.rupia.entity.Wallet;
 import com.ram.rupia.rupia.enums.Gender;
@@ -70,6 +71,15 @@ class RupiaApplicationTests {
         CustomerRequestBody body = CustomerRequestBody.builder().gender(Gender.FEMALE).build();
         CustomerDTO dto = customerService.updateCustomer(5L, body);
         System.out.println("Updated Customer " + dto);
+    }
+
+    @Test
+    void customerWithWalletBalance() {
+        List<CustomerWithWalletDTO> list = customerService.getCustomerWithWalletInfo(1l);
+        for (CustomerWithWalletDTO dto : list) {
+            System.out.println("Found user with " + dto);
+        }
+
     }
 
 }

@@ -2,6 +2,7 @@ package com.ram.rupia.rupia.service.customer;
 
 import com.ram.rupia.rupia.config.CustomerMapper;
 import com.ram.rupia.rupia.dto.CustomerDTO;
+import com.ram.rupia.rupia.dto.CustomerWithWalletDTO;
 import com.ram.rupia.rupia.entity.Customer;
 import com.ram.rupia.rupia.entity.Wallet;
 import com.ram.rupia.rupia.enums.CustomerStatus;
@@ -115,5 +116,12 @@ public class CustomerServiceImpl implements CustomerService {
         customerMapper.updateFromRequest(body, existingCustomer);
 
         return customerMapper.toCustomerDTO(existingCustomer);
+    }
+
+    @Override
+    public List<CustomerWithWalletDTO> getCustomerWithWalletInfo(Long customerId) {
+        Customer customer = customerRepository.findById(customerId).orElseThrow(() ->
+                new RuntimeException("Sorry! but no customer found with id " + customerId));
+        return customerRepository.getCustomerWithWallet(customerId);
     }
 }

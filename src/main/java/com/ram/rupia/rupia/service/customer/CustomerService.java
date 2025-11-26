@@ -1,6 +1,7 @@
 package com.ram.rupia.rupia.service.customer;
 
 import com.ram.rupia.rupia.dto.CustomerDTO;
+import com.ram.rupia.rupia.dto.CustomerWithWalletDTO;
 import com.ram.rupia.rupia.post_request.CustomerRequestBody;
 
 import java.util.List;
@@ -24,5 +25,7 @@ public interface CustomerService {
     Boolean approveCustomerRegistration(Long userId);
 
     CustomerDTO updateCustomer(Long customerId, CustomerRequestBody body);
+
+    List<CustomerWithWalletDTO> getCustomerWithWalletInfo(Long customerId);
 
 }
