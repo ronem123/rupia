@@ -4,13 +4,16 @@ import com.ram.rupia.rupia.config.CustomerMapper;
 import com.ram.rupia.rupia.config.WalletMapper;
 import com.ram.rupia.rupia.dto.CustomerDTO;
 import com.ram.rupia.rupia.dto.CustomerWithWalletDTO;
+import com.ram.rupia.rupia.dto.TransactionDTO;
 import com.ram.rupia.rupia.entity.Customer;
 import com.ram.rupia.rupia.entity.Wallet;
 import com.ram.rupia.rupia.enums.Gender;
 import com.ram.rupia.rupia.post_request.CustomerRequestBody;
+import com.ram.rupia.rupia.post_request.WalletReloadRequest;
 import com.ram.rupia.rupia.post_request.WalletRequestBody;
 import com.ram.rupia.rupia.repository.CustomerRepository;
 import com.ram.rupia.rupia.repository.WalletRepository;
+import com.ram.rupia.rupia.response.CustomerTransactionResponse;
 import com.ram.rupia.rupia.service.customer.CustomerServiceImpl;
 import com.ram.rupia.rupia.service.wallet.WalletServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -79,7 +82,24 @@ class RupiaApplicationTests {
         for (CustomerWithWalletDTO dto : list) {
             System.out.println("Found user with " + dto);
         }
-
     }
 
+    @Test
+    void walletReloadTest() {
+        WalletReloadRequest body = WalletReloadRequest.builder()
+                .amount(BigDecimal.valueOf(1000))
+                .remarks("Self wallet reload")
+                .walletId(2L)
+                .build();
+        TransactionDTO dto = walletService.reloadWallet(body);
+        System.out.println(dto);
+    }
+
+    @Test
+    void getCustomerTransaction() {
+        List<CustomerTransactionResponse> list = walletService.getCustomerTransaction();
+        for (CustomerTransactionResponse s : list) {
+            System.out.println("Information: " + s.toString());
+        }
+    }
 }

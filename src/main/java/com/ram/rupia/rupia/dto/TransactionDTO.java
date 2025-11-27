@@ -5,6 +5,7 @@ import com.ram.rupia.rupia.enums.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,9 +18,11 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @RequiredArgsConstructor
+@ToString
 public class TransactionDTO {
     private Long id;
     private Long walletId;
+    private Long senderWalletId;    //null for self wallet reload
     private BigDecimal amount;
     private TransactionType transactionType;
     private String remarks;

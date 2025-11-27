@@ -31,6 +31,11 @@ public class Transaction {
     @JoinColumn(name = "wallet_id", nullable = false)
     private Wallet wallet;
 
+    //sender wallet (only used for TransactionType.Transfer
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_wallet_id", nullable = true)
+    private Wallet senderWallet;
+
     @Column(name = "transaction_amount", nullable = false)
     private BigDecimal amount;
 
