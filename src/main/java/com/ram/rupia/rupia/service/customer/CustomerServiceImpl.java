@@ -3,12 +3,19 @@ package com.ram.rupia.rupia.service.customer;
 import com.ram.rupia.rupia.config.CustomerMapper;
 import com.ram.rupia.rupia.dto.CustomerDTO;
 import com.ram.rupia.rupia.dto.CustomerWithWalletDTO;
+import com.ram.rupia.rupia.dto.OtpDTO;
 import com.ram.rupia.rupia.entity.Customer;
+import com.ram.rupia.rupia.entity.Otp;
 import com.ram.rupia.rupia.entity.Wallet;
 import com.ram.rupia.rupia.enums.CustomerStatus;
+import com.ram.rupia.rupia.enums.OtpType;
+import com.ram.rupia.rupia.post_request.CustomerLoginRequestBody;
 import com.ram.rupia.rupia.post_request.CustomerRequestBody;
+import com.ram.rupia.rupia.post_request.VerifyOtpRequest;
 import com.ram.rupia.rupia.repository.CustomerRepository;
+import com.ram.rupia.rupia.repository.OtpRepository;
 import com.ram.rupia.rupia.repository.WalletRepository;
+import com.ram.rupia.rupia.service.otp.OtpService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+    private final OtpService otpService;
 
     private final WalletRepository walletRepository;
 
@@ -123,5 +131,30 @@ public class CustomerServiceImpl implements CustomerService {
         Customer customer = customerRepository.findById(customerId).orElseThrow(() ->
                 new RuntimeException("Sorry! but no customer found with id " + customerId));
         return customerRepository.getCustomerWithWallet(customerId);
+    }
+
+    @Override
+    public OtpDTO loginUser(String mobileNumber) {
+        /*
+         * 1. Check if the customer is present with the provided mobile number
+         * 2. If present, insert new otp and otp ref to otp table alongside with customer ID
+         * 3. Send OTP via sms
+         */
+        Customer customer = customerRepository.findByContact(mobileNumber).orElseThrow(
+                () -> new IllegalArgumentException("Sorry ! customer not found"));
+
+        return otpService.generateOtp(customer.getId(), OtpType.LOGIN);
+    }
+
+    @Override
+    public CustomerDTO verifyOtp(VerifyOtpRequest request) {
+        boolean isOtpValid = otpService.verifyOtp(request);
+        if (!isOtpValid) {
+            throw new RuntimeException("Invalid OTP");
+        } else {
+            Otp otp = otpService.getOtp(request.getOtpRef());
+            Customer customer = otp.getCustomer();
+            return customerMapper.toCustomerDTO(customer);
+        }
     }
 }

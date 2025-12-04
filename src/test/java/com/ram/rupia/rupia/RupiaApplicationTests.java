@@ -4,17 +4,20 @@ import com.ram.rupia.rupia.config.CustomerMapper;
 import com.ram.rupia.rupia.config.WalletMapper;
 import com.ram.rupia.rupia.dto.CustomerDTO;
 import com.ram.rupia.rupia.dto.CustomerWithWalletDTO;
+import com.ram.rupia.rupia.dto.OtpDTO;
 import com.ram.rupia.rupia.dto.TransactionDTO;
 import com.ram.rupia.rupia.entity.Customer;
 import com.ram.rupia.rupia.entity.Wallet;
 import com.ram.rupia.rupia.enums.Gender;
 import com.ram.rupia.rupia.post_request.CustomerRequestBody;
+import com.ram.rupia.rupia.post_request.VerifyOtpRequest;
 import com.ram.rupia.rupia.post_request.WalletReloadRequest;
 import com.ram.rupia.rupia.post_request.WalletRequestBody;
 import com.ram.rupia.rupia.repository.CustomerRepository;
 import com.ram.rupia.rupia.repository.WalletRepository;
 import com.ram.rupia.rupia.response.CustomerTransactionResponse;
 import com.ram.rupia.rupia.service.customer.CustomerServiceImpl;
+import com.ram.rupia.rupia.service.otp.OtpServiceImpl;
 import com.ram.rupia.rupia.service.wallet.WalletServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +41,7 @@ class RupiaApplicationTests {
 
     @Autowired
     private WalletMapper walletMapper;
+
 
     @Test
     void customerRepositoryTest() {
@@ -101,5 +105,18 @@ class RupiaApplicationTests {
         for (CustomerTransactionResponse s : list) {
             System.out.println("Information: " + s.toString());
         }
+    }
+
+    @Test
+    void loginUserTest() {
+        OtpDTO dto = customerService.loginUser("9808065961");
+        System.out.println("OTP response" + dto);
+    }
+
+    @Test
+    void OtpVerificationTest() {
+        VerifyOtpRequest request = new VerifyOtpRequest("752559", "e970f016-9595-4ee0-9a77-6e90458c628e");
+        CustomerDTO dto = customerService.verifyOtp(request);
+        System.out.println("OTPVerify :" + dto);
     }
 }

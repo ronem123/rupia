@@ -1,13 +1,17 @@
 package com.ram.rupia.rupia.repository;
 
 
+import com.ram.rupia.rupia.dto.CustomerDTO;
 import com.ram.rupia.rupia.dto.CustomerWithWalletDTO;
 import com.ram.rupia.rupia.entity.Customer;
+import com.ram.rupia.rupia.post_request.CustomerLoginRequestBody;
+import com.ram.rupia.rupia.post_request.CustomerRequestBody;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Ram Mandal on 16/11/2025
@@ -38,4 +42,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             WHERE ct.id = ?1
             ORDER BY ct.name  ASC""")
     List<CustomerWithWalletDTO> getCustomerWithWallet(Long customerId);
+
+
+    Optional<Customer> findByContact(String contact);
 }

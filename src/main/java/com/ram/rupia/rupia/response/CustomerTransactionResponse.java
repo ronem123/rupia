@@ -1,10 +1,6 @@
 package com.ram.rupia.rupia.response;
 
 
-import com.ram.rupia.rupia.enums.TransactionType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.math.BigDecimal;
 
 /**
@@ -12,12 +8,15 @@ import java.math.BigDecimal;
  *
  * @System: Apple M1 Pro
  */
-@Data
-@AllArgsConstructor
-public class CustomerTransactionResponse {
-    private String name;
-    private BigDecimal amount;
-    private TransactionType transactionType;
-    private BigDecimal walletBalance;
-    private int walletSize;
+
+public interface CustomerTransactionResponse {
+    String getCustomerName();
+
+    BigDecimal getAmount();
+
+    String getTransactionType();
+
+    BigDecimal getWalletBalance();
+
+    int getWalletSize();
 }

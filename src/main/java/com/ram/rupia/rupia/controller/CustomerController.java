@@ -1,6 +1,8 @@
 package com.ram.rupia.rupia.controller;
 
 import com.ram.rupia.rupia.dto.CustomerDTO;
+import com.ram.rupia.rupia.dto.OtpDTO;
+import com.ram.rupia.rupia.post_request.CustomerLoginRequestBody;
 import com.ram.rupia.rupia.post_request.CustomerRequestBody;
 import com.ram.rupia.rupia.service.customer.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/customers")
+@CrossOrigin(origins = "http://localhost:3000")//remove once the front end is hosted to real webserver
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -39,6 +42,12 @@ public class CustomerController {
     @PostMapping
     public ResponseEntity<CustomerDTO> createNewCustomer(@RequestBody CustomerRequestBody requestBody) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createNewCustomer(requestBody));
+    }
+
+    @PostMapping("/auth/login")
+    public ResponseEntity<OtpDTO> loginCustomer(@RequestBody CustomerLoginRequestBody body) {
+        customerService.loginUser(body.getMobile());
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

@@ -14,23 +14,16 @@ import java.util.List;
  * @System: Apple M1 Pro
  */
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    /**
-     * select ct.customer_full_name ,tt.transaction_amount ,tt.transaction_type ,wt.wallet_balance ,wt.wallet_size
-     * from customer_tbl ct
-     * inner join wallet_tbl wt on wt.customer_id = ct.id
-     * inner join transaction_tbl tt on tt.wallet_id = wt.id
-     */
     @Query(value = """
-            SELECT new com.ram.rupia.rupia.enums.TransactionType.CustomerTransactionResponse(
-                ct.name,
-                tt.amount,
-                tt.transactionType,
-                wt.walletBalance,
-                wt.walletSize
-            )
-            FROM Customer ct
-            INNER JOIN ct.wallet wt
-            INNER JOIN wt.transaction tt
-            """)
+            SELECT\s
+            ct.customer_full_name as customerName,
+            tt.transaction_amount as amount,
+            tt.transaction_type as transactionType,
+            wt.wallet_balance as walletBalance,
+            wt.wallet_size as walletSize
+            FROM customer_tbl ct
+            INNER JOIN wallet_tbl wt on wt.customer_id = ct.id
+            INNER JOIN transaction_tbl tt on tt.wallet_id = wt.id
+           \s""", nativeQuery = true)
     List<CustomerTransactionResponse> getCustomerTransaction();
 }
