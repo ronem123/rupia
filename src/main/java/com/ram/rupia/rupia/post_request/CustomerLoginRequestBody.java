@@ -1,19 +1,18 @@
 package com.ram.rupia.rupia.post_request;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * Created by Ram Mandal on 03/12/2025
  *
  * @System: Apple M1 Pro
  */
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class CustomerLoginRequestBody {
-    private String mobile;
+    private String mobileNumber;
 }

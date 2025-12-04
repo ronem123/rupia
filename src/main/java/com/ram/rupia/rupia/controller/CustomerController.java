@@ -46,8 +46,7 @@ public class CustomerController {
 
     @PostMapping("/auth/login")
     public ResponseEntity<OtpDTO> loginCustomer(@RequestBody CustomerLoginRequestBody body) {
-        customerService.loginUser(body.getMobile());
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(customerService.loginUser(body.getMobileNumber()));
     }
 
     @DeleteMapping("/{id}")
