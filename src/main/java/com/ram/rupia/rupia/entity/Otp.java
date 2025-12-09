@@ -49,5 +49,4 @@ public class Otp {
 
     @Column(name = "is_otp_used", nullable = false, columnDefinition = "boolean default false")
     private boolean isOtpUsed = false;
-
 }

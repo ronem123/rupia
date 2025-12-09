@@ -44,10 +44,6 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createNewCustomer(requestBody));
     }
 
-    @PostMapping("/auth/login")
-    public ResponseEntity<OtpDTO> loginCustomer(@RequestBody CustomerLoginRequestBody body) {
-        return ResponseEntity.ok(customerService.loginUser(body.getMobileNumber()));
-    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable("id") Long id) {

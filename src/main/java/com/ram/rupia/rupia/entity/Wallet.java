@@ -31,7 +31,7 @@ public class Wallet {
      * A wallet cannot exist without a customer
      * Business: Customer registers → BO admin approves → Wallet is created later → wallet must always belong to customer.
      */
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "customer_id",
             nullable = false,

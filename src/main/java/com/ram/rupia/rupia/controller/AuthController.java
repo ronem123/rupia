@@ -5,7 +5,7 @@ import com.ram.rupia.rupia.dto.CustomerDTO;
 import com.ram.rupia.rupia.dto.OtpDTO;
 import com.ram.rupia.rupia.post_request.CustomerLoginRequestBody;
 import com.ram.rupia.rupia.post_request.VerifyOtpRequest;
-import com.ram.rupia.rupia.service.customer.CustomerService;
+import com.ram.rupia.rupia.service.auth.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +18,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-@CrossOrigin(origins = "http://localhost:3000")//remove once the front end is hosted on real web server
+@CrossOrigin(origins = "http://localhost:3000")//remove once the front end is hosted on a real web server
 public class AuthController {
 
-    private final CustomerService customerService;
+    private final AuthServiceImpl authService;
 
     @PostMapping("/login")
     public ResponseEntity<OtpDTO> loginUser(@RequestBody CustomerLoginRequestBody requestBody) {
-        return ResponseEntity.ok(customerService.loginUser(requestBody.getMobileNumber()));
+        return ResponseEntity.ok(authService.loginUser(requestBody.getMobileNumber()));
     }
 
     @PostMapping("/otp-verify")
     public ResponseEntity<CustomerDTO> verifyOtp(@RequestBody VerifyOtpRequest body) {
-        return ResponseEntity.ok(customerService.verifyOtp(body));
+        return ResponseEntity.ok(authService.verifyLoginOtp(body));
     }
 }

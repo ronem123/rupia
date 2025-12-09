@@ -7,11 +7,9 @@ package com.ram.rupia.rupia.enums;
  * @System: Apple M1 Pro
  */
 
-/**
- * Credit   : For Wallet Reload from third party : Bank, Connect IPS, Khalti, eSewa
- * Debit    : Deducting the amount from wallet while making payment
- * Transfer : Make wallet to wallet transfer
- */
 public enum TransactionType {
-    CREDIT, DEBIT, TRANSFER
+    CREDIT,     // When balance is added to wallet
+    DEBIT,      // Deducting the amount from wallet while making payment
+    TRANSFER,   // Make wallet to wallet transfer
+    RELOAD      // When initiating the mobile reload but balance is not loaded yet
 }

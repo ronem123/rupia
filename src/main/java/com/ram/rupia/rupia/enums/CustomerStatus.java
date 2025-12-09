@@ -8,9 +8,10 @@ package com.ram.rupia.rupia.enums;
  */
 
 public enum CustomerStatus {
-    ACTIVE,
-    INACTIVE,
-    PENDING,
-    BLOCKED,
-    DEACTIVATED
+    ACTIVE,         //user is in active state and using the app frequently
+    INACTIVE,       //user is partially registered. User created but never verified mobile/email
+    KYC_PENDING,    //User Kyc pending need to approve from BO
+    KYC_REJECTED,   //User KYC is rejected by the BO if data are not justified
+    BLOCKED,        //User is blocked due to suspicious behaviour
+    DEACTIVATED     //User is temporarily suspended
 }

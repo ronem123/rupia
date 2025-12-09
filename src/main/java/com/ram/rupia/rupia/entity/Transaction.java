@@ -1,6 +1,7 @@
 package com.ram.rupia.rupia.entity;
 
 
+import com.ram.rupia.rupia.enums.TransactionStatus;
 import com.ram.rupia.rupia.enums.TransactionType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -50,4 +51,7 @@ public class Transaction {
     @Column(name = "transaction_reference_no", nullable = false)
     private String referenceNo;
 
+    @Column(name = "transaction_status")
+    @Enumerated(EnumType.STRING)
+    private TransactionStatus transactionStatus;
 }

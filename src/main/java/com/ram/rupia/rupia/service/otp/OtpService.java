@@ -3,6 +3,7 @@ package com.ram.rupia.rupia.service.otp;
 
 import com.ram.rupia.rupia.dto.OtpDTO;
 import com.ram.rupia.rupia.entity.Otp;
+import com.ram.rupia.rupia.entity.Transaction;
 import com.ram.rupia.rupia.enums.OtpType;
 import com.ram.rupia.rupia.post_request.VerifyOtpRequest;
 
@@ -16,5 +17,6 @@ public interface OtpService {
 
     Boolean verifyOtp(VerifyOtpRequest body);
 
-    Otp getOtp(String otpRef);
+
+    Otp getOtp(String otpRef, OtpType otpType);
 }

@@ -6,10 +6,13 @@ import com.ram.rupia.rupia.dto.CustomerDTO;
 import com.ram.rupia.rupia.dto.OtpDTO;
 import com.ram.rupia.rupia.entity.Customer;
 import com.ram.rupia.rupia.entity.Otp;
+import com.ram.rupia.rupia.entity.Transaction;
 import com.ram.rupia.rupia.enums.OtpType;
+import com.ram.rupia.rupia.exception.BadRequestException;
 import com.ram.rupia.rupia.post_request.VerifyOtpRequest;
 import com.ram.rupia.rupia.repository.CustomerRepository;
 import com.ram.rupia.rupia.repository.OtpRepository;
+import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -54,22 +57,33 @@ public class OtpServiceImpl implements OtpService {
     @Transactional
     @Override
     public Boolean verifyOtp(VerifyOtpRequest body) {
-        Otp otp = otpRepository.findByOtpAndOtpRefNoAndIsOtpUsedFalse(body.getOtp(), body.getOtpRef()).orElseThrow(
+        //check otp with all the provided parameters, so that it will be more secure
+        Otp otp = otpRepository.findByOtpAndOtpRefNoAndOtpTypeAndIsOtpUsedFalse(body.getOtp(), body.getOtpRef(), body.getOtpType()).orElseThrow(
                 () -> new IllegalArgumentException("Sorry! Otp Not found"));
 
+        //reject or throw an exception if the provided customer ID and the customer bound with the otp do not match
+        if (!otp.getCustomer().getId().equals(body.getCustomerId())) {
+            throw new BadRequestException("Sorry Customer not matched");
+        }
+        //check if the provided otp has expired
         if (otp.getExpiryTime().isBefore(LocalDateTime.now())) {
             throw new RuntimeException("OTP expired");
         }
 
+        //return false if the provided opt does not match
+        //rare case
         if (!body.getOtp().equals(otp.getOtp())) {
-            return false;
+            throw new BadRequestException("Incorrect OTP");
         }
+
+        //update otp used status
         otp.setOtpUsed(true);
+
         return true;
     }
 
     @Override
-    public Otp getOtp(String otpRef) {
-        return otpRepository.findByOtpRefNo(otpRef).orElseThrow(() -> new IllegalArgumentException("No Otp Found"));
+    public Otp getOtp(String otpRef, OtpType otpType) {
+        return otpRepository.findByOtpRefNoAndOtpType(otpRef, otpType).orElseThrow(() -> new IllegalArgumentException("No Otp Found"));
     }
 }

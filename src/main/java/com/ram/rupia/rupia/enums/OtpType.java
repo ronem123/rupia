@@ -7,5 +7,7 @@ package com.ram.rupia.rupia.enums;
  * @System: Apple M1 Pro
  */
 public enum OtpType {
-    LOGIN,TRANSACTION
+    LOGIN,          //Otp required when user is doing login
+    TRANSACTION,    //Otp required when user doing any transaction
+    RELOAD          //Otp required when user is loading money to its own wallet
 }

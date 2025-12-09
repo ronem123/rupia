@@ -1,6 +1,7 @@
 package com.ram.rupia.rupia.post_request;
 
 
+import com.ram.rupia.rupia.enums.OtpType;
 import lombok.*;
 
 /**
@@ -16,4 +17,6 @@ import lombok.*;
 public class VerifyOtpRequest {
     private String otp;
     private String otpRef;
+    private Long customerId;
+    private OtpType otpType;
 }

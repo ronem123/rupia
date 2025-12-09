@@ -22,8 +22,8 @@ public interface CustomerMapper {
     @Mapping(target = "status", source = "dto.customerStatus")
     Customer toCustomer(CustomerDTO dto);
 
-    // RequestBody to Entity (default status = PENDING)
-    @Mapping(target = "status", expression = "java(com.ram.rupia.rupia.enums.CustomerStatus.PENDING)")
+    // RequestBody to Entity (default status = KYC_PENDING)
+    @Mapping(target = "status", expression = "java(com.ram.rupia.rupia.enums.CustomerStatus.KYC_PENDING)")
     Customer toCustomer(CustomerRequestBody body);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
