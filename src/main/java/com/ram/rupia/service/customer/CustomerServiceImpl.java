@@ -1,13 +1,12 @@
 package com.ram.rupia.service.customer;
 
 import com.ram.rupia.config.CustomerMapper;
-import com.ram.rupia.dto.CustomerDTO;
-import com.ram.rupia.dto.CustomerWithWalletDTO;
-import com.ram.rupia.entity.Customer;
-import com.ram.rupia.enums.CustomerStatus;
-import com.ram.rupia.post_request.CustomerRequestBody;
+import com.ram.rupia.api.dto.CustomerDTO;
+import com.ram.rupia.api.dto.CustomerWithWalletDTO;
+import com.ram.rupia.domain.entity.Customer;
+import com.ram.rupia.domain.enums.CustomerStatus;
+import com.ram.rupia.api.post_request.CustomerRequestBody;
 import com.ram.rupia.repository.CustomerRepository;
-import com.ram.rupia.service.otp.OtpService;
 import com.ram.rupia.service.wallet.WalletServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

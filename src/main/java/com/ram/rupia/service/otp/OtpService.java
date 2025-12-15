@@ -1,11 +1,10 @@
 package com.ram.rupia.service.otp;
 
 
-import com.ram.rupia.dto.OtpDTO;
-import com.ram.rupia.entity.Otp;
-import com.ram.rupia.entity.Transaction;
-import com.ram.rupia.enums.OtpType;
-import com.ram.rupia.post_request.VerifyOtpRequest;
+import com.ram.rupia.api.dto.OtpDTO;
+import com.ram.rupia.domain.entity.Otp;
+import com.ram.rupia.domain.enums.OtpType;
+import com.ram.rupia.api.post_request.VerifyOtpRequest;
 
 /**
  * Created by Ram Mandal on 03/12/2025

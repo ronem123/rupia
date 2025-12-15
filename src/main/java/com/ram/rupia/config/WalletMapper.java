@@ -1,9 +1,9 @@
 package com.ram.rupia.config;
 
 
-import com.ram.rupia.dto.WalletDTO;
-import com.ram.rupia.entity.Wallet;
-import com.ram.rupia.post_request.WalletRequestBody;
+import com.ram.rupia.api.dto.WalletDTO;
+import com.ram.rupia.domain.entity.Wallet;
+import com.ram.rupia.api.post_request.WalletRequestBody;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

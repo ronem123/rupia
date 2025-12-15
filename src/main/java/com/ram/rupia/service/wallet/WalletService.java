@@ -1,8 +1,7 @@
 package com.ram.rupia.service.wallet;
 
 
-import com.ram.rupia.dto.WalletDTO;
-import com.ram.rupia.entity.Customer;
+import com.ram.rupia.domain.entity.Customer;
 
 /**
  * Created by Ram Mandal on 25/11/2025

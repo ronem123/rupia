@@ -1,9 +1,9 @@
 package com.ram.rupia.config;
 
 
-import com.ram.rupia.dto.CustomerDTO;
-import com.ram.rupia.entity.Customer;
-import com.ram.rupia.post_request.CustomerRequestBody;
+import com.ram.rupia.api.dto.CustomerDTO;
+import com.ram.rupia.domain.entity.Customer;
+import com.ram.rupia.api.post_request.CustomerRequestBody;
 import org.mapstruct.*;
 
 import java.util.List;

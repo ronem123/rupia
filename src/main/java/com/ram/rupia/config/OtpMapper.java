@@ -1,8 +1,8 @@
 package com.ram.rupia.config;
 
 
-import com.ram.rupia.dto.OtpDTO;
-import com.ram.rupia.entity.Otp;
+import com.ram.rupia.api.dto.OtpDTO;
+import com.ram.rupia.domain.entity.Otp;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -1,8 +1,8 @@
 package com.ram.rupia.service.customer;
 
-import com.ram.rupia.dto.CustomerDTO;
-import com.ram.rupia.dto.CustomerWithWalletDTO;
-import com.ram.rupia.post_request.CustomerRequestBody;
+import com.ram.rupia.api.dto.CustomerDTO;
+import com.ram.rupia.api.dto.CustomerWithWalletDTO;
+import com.ram.rupia.api.post_request.CustomerRequestBody;
 
 import java.util.List;
 

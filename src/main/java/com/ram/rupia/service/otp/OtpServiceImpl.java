@@ -2,17 +2,14 @@ package com.ram.rupia.service.otp;
 
 
 import com.ram.rupia.config.OtpMapper;
-import com.ram.rupia.dto.CustomerDTO;
-import com.ram.rupia.dto.OtpDTO;
-import com.ram.rupia.entity.Customer;
-import com.ram.rupia.entity.Otp;
-import com.ram.rupia.entity.Transaction;
-import com.ram.rupia.enums.OtpType;
+import com.ram.rupia.api.dto.OtpDTO;
+import com.ram.rupia.domain.entity.Customer;
+import com.ram.rupia.domain.entity.Otp;
+import com.ram.rupia.domain.enums.OtpType;
 import com.ram.rupia.exception.BadRequestException;
-import com.ram.rupia.post_request.VerifyOtpRequest;
+import com.ram.rupia.api.post_request.VerifyOtpRequest;
 import com.ram.rupia.repository.CustomerRepository;
 import com.ram.rupia.repository.OtpRepository;
-import jakarta.annotation.Nullable;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

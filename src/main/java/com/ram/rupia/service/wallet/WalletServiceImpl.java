@@ -1,12 +1,8 @@
 package com.ram.rupia.service.wallet;
 
 
-import com.ram.rupia.config.WalletMapper;
-import com.ram.rupia.dto.WalletDTO;
-import com.ram.rupia.entity.Customer;
-import com.ram.rupia.entity.Wallet;
-import com.ram.rupia.enums.CustomerStatus;
-import com.ram.rupia.repository.CustomerRepository;
+import com.ram.rupia.domain.entity.Customer;
+import com.ram.rupia.domain.entity.Wallet;
 import com.ram.rupia.repository.WalletRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

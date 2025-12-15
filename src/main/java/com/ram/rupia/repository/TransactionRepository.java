@@ -1,8 +1,8 @@
 package com.ram.rupia.repository;
 
 
-import com.ram.rupia.entity.Transaction;
-import com.ram.rupia.response.CustomerTransactionResponse;
+import com.ram.rupia.domain.entity.Transaction;
+import com.ram.rupia.api.response.CustomerTransactionResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

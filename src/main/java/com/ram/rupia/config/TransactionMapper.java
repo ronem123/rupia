@@ -1,8 +1,8 @@
 package com.ram.rupia.config;
 
 
-import com.ram.rupia.dto.TransactionDTO;
-import com.ram.rupia.entity.Transaction;
+import com.ram.rupia.api.dto.TransactionDTO;
+import com.ram.rupia.domain.entity.Transaction;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -1,11 +1,8 @@
 package com.ram.rupia.repository;
 
 
-import com.ram.rupia.dto.CustomerDTO;
-import com.ram.rupia.dto.CustomerWithWalletDTO;
-import com.ram.rupia.entity.Customer;
-import com.ram.rupia.post_request.CustomerLoginRequestBody;
-import com.ram.rupia.post_request.CustomerRequestBody;
+import com.ram.rupia.api.dto.CustomerWithWalletDTO;
+import com.ram.rupia.domain.entity.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

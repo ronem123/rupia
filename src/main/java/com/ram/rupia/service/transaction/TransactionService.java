@@ -1,14 +1,13 @@
 package com.ram.rupia.service.transaction;
 
 
-import com.ram.rupia.dto.OtpDTO;
-import com.ram.rupia.dto.TransactionDTO;
-import com.ram.rupia.entity.Otp;
-import com.ram.rupia.enums.OtpType;
-import com.ram.rupia.post_request.ConfirmTransactionRequest;
-import com.ram.rupia.post_request.WalletReloadRequest;
-import com.ram.rupia.response.CustomerTransactionResponse;
-import com.ram.rupia.response.InitiateTransactionResponse;
+import com.ram.rupia.api.dto.OtpDTO;
+import com.ram.rupia.api.dto.TransactionDTO;
+import com.ram.rupia.domain.enums.OtpType;
+import com.ram.rupia.api.post_request.ConfirmTransactionRequest;
+import com.ram.rupia.api.post_request.WalletReloadRequest;
+import com.ram.rupia.api.response.CustomerTransactionResponse;
+import com.ram.rupia.api.response.InitiateTransactionResponse;
 
 import java.util.List;
 

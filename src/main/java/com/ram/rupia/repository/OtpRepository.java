@@ -1,11 +1,10 @@
 package com.ram.rupia.repository;
 
 
-import com.ram.rupia.entity.Otp;
-import com.ram.rupia.enums.OtpType;
+import com.ram.rupia.domain.entity.Otp;
+import com.ram.rupia.domain.enums.OtpType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 /**

@@ -2,12 +2,12 @@ package com.ram.rupia.service.auth;
 
 
 import com.ram.rupia.config.CustomerMapper;
-import com.ram.rupia.dto.CustomerDTO;
-import com.ram.rupia.dto.OtpDTO;
-import com.ram.rupia.entity.Customer;
-import com.ram.rupia.entity.Otp;
-import com.ram.rupia.enums.OtpType;
-import com.ram.rupia.post_request.VerifyOtpRequest;
+import com.ram.rupia.api.dto.CustomerDTO;
+import com.ram.rupia.api.dto.OtpDTO;
+import com.ram.rupia.domain.entity.Customer;
+import com.ram.rupia.domain.entity.Otp;
+import com.ram.rupia.domain.enums.OtpType;
+import com.ram.rupia.api.post_request.VerifyOtpRequest;
 import com.ram.rupia.repository.CustomerRepository;
 import com.ram.rupia.service.otp.OtpServiceImpl;
 import lombok.RequiredArgsConstructor;

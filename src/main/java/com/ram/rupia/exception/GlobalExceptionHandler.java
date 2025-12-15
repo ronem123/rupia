@@ -1,7 +1,7 @@
 package com.ram.rupia.exception;
 
 
-import com.ram.rupia.response.ApiResponse;
+import com.ram.rupia.api.response.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: rupia
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rupiaDB
+    username:
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+
+server:
+  port: 8081
+  servlet:
+    context-path: /api
+
+
+
+#spring.application.name=rupia
+
+#Configured from : https://www.codingshuttle.com/spring-boot-handbook/restful-api-development/
+#Port configuration
+#server.port=8081
+
+#DB configuration
+#spring.datasource.url=jdbc:postgresql://localhost:5432/rupiaDB
+#spring.datasource.username=
+#spring.datasource.password=
+
+#create-drop //This will create schema on running your application and will also drop all schemas once you stop your application
+#update      //update db accordingly
+#spring.jpa.hibernate.ddl-auto=update
+
+#TO see all the sql statements runed by hibernate
+#spring.jpa.show-sql=true
+
+#Format the hibernate queries, statements
+#spring.jpa.properties.hibernate.format_sql=true
+
+#Context path defined before every end point and after base url
+#server.servlet.context-path=/api
+
+# Kafka Producer
+#spring.kafka.bootstrap-servers=localhost:9092
+#spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+#spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
