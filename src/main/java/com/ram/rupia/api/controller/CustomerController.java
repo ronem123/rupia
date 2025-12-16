@@ -2,9 +2,11 @@ package com.ram.rupia.api.controller;
 
 import com.ram.rupia.api.dto.CustomerDTO;
 import com.ram.rupia.api.post_request.CustomerRequestBody;
+import com.ram.rupia.domain.entity.Customer;
 import com.ram.rupia.service.customer.CustomerService;
 import com.ram.rupia.service.kafka.KafkaProducerService;
-import com.ram.rupia.service.kafka.KafkaTopicUtil;
+import com.rupia.kafa.KafkaTopics;
+import com.rupia.kafa.WalletReloadEvent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +34,14 @@ public class CustomerController {
     //is the same thing, the annotation with endpoint is removed due to the RequestMapping annotation as /customers
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> getCustomerList() {
-        kafkaProducerService.publish(KafkaTopicUtil.quickStartEvent, "Success now walle walle again");
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.getCustomers());
+        List<CustomerDTO> customers = customerService.getCustomers();
+
+//        kafkaProducerService.publishMessage(KafkaTopics.TRANSACTION_TOPIC, "Customer: " + customers.get(0).getName());
+
+        WalletReloadEvent walletReloadEvent = new WalletReloadEvent("Wallet Reload");
+        kafkaProducerService.publishEvent(KafkaTopics.TRANSACTION_TOPIC, walletReloadEvent);
+
+        return ResponseEntity.status(HttpStatus.OK).body(customers);
     }
 
     @GetMapping("/{id}")

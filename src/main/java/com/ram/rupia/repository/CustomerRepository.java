@@ -33,7 +33,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     //also no need to ad ON clause like below; if using JPQL. It knows which column is mapped with which one
     //ON ct.id =wt.customer_id\s
     @Query(value = """
-            SELECT new com.ram.rupia.dto.CustomerWithWalletDTO(ct.id,ct.name,wt.walletBalance)\s
+            SELECT new com.ram.rupia.api.dto.CustomerWithWalletDTO(ct.id,ct.name,wt.walletBalance)\s
             FROM Customer ct\s
             INNER JOIN ct.wallet wt\s
             WHERE ct.id = ?1
