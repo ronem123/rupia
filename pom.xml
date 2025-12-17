@@ -80,7 +80,7 @@
         <dependency>
             <groupId>com.rupia.kafka</groupId>
             <artifactId>kafka-event</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.8</version>
         </dependency>
 
         <dependency>
@@ -122,11 +122,11 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                         </path>
-						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>1.6.3</version>
-						</path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>1.6.3</version>
+                        </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>

@@ -55,16 +55,15 @@ public class OtpServiceImpl implements OtpService {
     @Override
     public Boolean verifyOtp(VerifyOtpRequest body) {
         //check otp with all the provided parameters, so that it will be more secure
-        Otp otp = otpRepository.findByOtpAndOtpRefNoAndOtpTypeAndIsOtpUsedFalse(body.getOtp(), body.getOtpRef(), body.getOtpType()).orElseThrow(
-                () -> new IllegalArgumentException("Sorry! Otp Not found"));
-
+        Otp otp = otpRepository.checkOtp(body.getOtp(), body.getOtpRef(), body.getOtpType(), body.getCustomerId())
+                .orElseThrow(() -> new BadRequestException("Sorry! Otp Not found"));
         //reject or throw an exception if the provided customer ID and the customer bound with the otp do not match
         if (!otp.getCustomer().getId().equals(body.getCustomerId())) {
             throw new BadRequestException("Sorry Customer not matched");
         }
         //check if the provided otp has expired
         if (otp.getExpiryTime().isBefore(LocalDateTime.now())) {
-            throw new RuntimeException("OTP expired");
+            throw new BadRequestException("OTP expired");
         }
 
         //return false if the provided opt does not match

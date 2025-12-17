@@ -5,6 +5,7 @@ import com.ram.rupia.api.dto.CustomerDTO;
 import com.ram.rupia.api.dto.OtpDTO;
 import com.ram.rupia.api.post_request.CustomerLoginRequestBody;
 import com.ram.rupia.api.post_request.VerifyOtpRequest;
+import com.ram.rupia.api.response.ApiResponse;
 import com.ram.rupia.service.auth.AuthServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/otp-verify")
-    public ResponseEntity<CustomerDTO> verifyOtp(@RequestBody VerifyOtpRequest body) {
-        return ResponseEntity.ok(authService.verifyLoginOtp(body));
+    public ResponseEntity<ApiResponse<CustomerDTO>> verifyOtp(@RequestBody VerifyOtpRequest body) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "success", authService.verifyLoginOtp(body)));
     }
 }
