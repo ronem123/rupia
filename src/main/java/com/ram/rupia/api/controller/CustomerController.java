@@ -2,7 +2,6 @@ package com.ram.rupia.api.controller;
 
 import com.ram.rupia.api.dto.CustomerDTO;
 import com.ram.rupia.api.post_request.CustomerRequestBody;
-import com.ram.rupia.domain.entity.Customer;
 import com.ram.rupia.service.customer.CustomerService;
 import com.ram.rupia.service.kafka.KafkaProducerService;
 import com.rupia.kafa.KafkaTopics;
@@ -36,7 +35,6 @@ public class CustomerController {
     public ResponseEntity<List<CustomerDTO>> getCustomerList() {
         List<CustomerDTO> customers = customerService.getCustomers();
 
-//        kafkaProducerService.publishMessage(KafkaTopics.TRANSACTION_TOPIC, "Customer: " + customers.get(0).getName());
 
         WalletReloadEvent walletReloadEvent = new WalletReloadEvent("Wallet Reload");
         kafkaProducerService.publishEvent(KafkaTopics.TRANSACTION_TOPIC, walletReloadEvent);
@@ -49,7 +47,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.getCustomerById(id));
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public ResponseEntity<CustomerDTO> createNewCustomer(@RequestBody CustomerRequestBody requestBody) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createNewCustomer(requestBody));
     }

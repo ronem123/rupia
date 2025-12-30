@@ -25,3 +25,8 @@ server:
   port: 8081
   servlet:
     context-path: /api
+  
+#Spring Boot automatically reads environment variables.
+jwt:
+  access-secret: ${RUPIA_JWT_SECRET_ACCESS}
+  refresh-secret: ${RUPIA_JWT_SECRET_REFRESH}

@@ -1,6 +1,5 @@
 package com.ram.rupia;
 
-import com.rupia.kafa.TransactionEvent;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

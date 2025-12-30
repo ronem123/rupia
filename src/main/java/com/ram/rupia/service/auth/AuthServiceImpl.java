@@ -1,15 +1,20 @@
 package com.ram.rupia.service.auth;
 
 
+import com.ram.rupia.api.dto.LoginDTO;
 import com.ram.rupia.config.CustomerMapper;
 import com.ram.rupia.api.dto.CustomerDTO;
 import com.ram.rupia.api.dto.OtpDTO;
 import com.ram.rupia.domain.entity.Customer;
 import com.ram.rupia.domain.entity.Otp;
+import com.ram.rupia.domain.entity.UserEntity;
 import com.ram.rupia.domain.enums.OtpType;
 import com.ram.rupia.api.post_request.VerifyOtpRequest;
+import com.ram.rupia.exception.BadRequestException;
 import com.ram.rupia.repository.CustomerRepository;
+import com.ram.rupia.service.jwt.JwtAuthService;
 import com.ram.rupia.service.otp.OtpServiceImpl;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +29,7 @@ public class AuthServiceImpl implements AuthService {
     private final CustomerRepository customerRepository;
     private final OtpServiceImpl otpService;
     private final CustomerMapper customerMapper;
+    private final JwtAuthService jwtAuthService;
 
     @Override
     public OtpDTO loginUser(String mobileNumber) {
@@ -32,8 +38,7 @@ public class AuthServiceImpl implements AuthService {
          * 2. If present, insert new otp and otp ref to otp table alongside with customer ID
          * 3. Send OTP via sms
          */
-        Customer customer = customerRepository.findByContact(mobileNumber).orElseThrow(
-                () -> new IllegalArgumentException("Sorry ! customer not found"));
+        Customer customer = customerRepository.findByContact(mobileNumber).orElseThrow(() -> new BadRequestException("Sorry ! customer not found"));
 
         return otpService.generateOtp(customer.getId(), OtpType.LOGIN);
     }
@@ -49,15 +54,21 @@ public class AuthServiceImpl implements AuthService {
         return otpService.generateOtp(oldOtp.getCustomer().getId(), otpType);
     }
 
+    @Transactional
     @Override
-    public CustomerDTO verifyLoginOtp(VerifyOtpRequest request) {
+    public LoginDTO verifyLoginOtp(VerifyOtpRequest request) {
         boolean isOtpValid = otpService.verifyOtp(request);
         if (!isOtpValid) {
             throw new RuntimeException("Invalid OTP");
         } else {
             Otp otp = otpService.getOtp(request.getOtpRef(), request.getOtpType());
             Customer customer = otp.getCustomer();
-            return customerMapper.toCustomerDTO(customer);
+
+            String token = jwtAuthService.createToken(customer.getUser());
+            String refreshToken = jwtAuthService.createRefreshToken(customer.getUser());
+            // save refresh token
+
+            return new LoginDTO(customer.getId(), token, refreshToken);
         }
     }
 }

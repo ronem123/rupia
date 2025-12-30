@@ -1,15 +1,12 @@
 package com.ram.rupia.rupia;
 
+import com.ram.rupia.api.dto.*;
 import com.ram.rupia.api.post_request.ConfirmTransactionRequest;
 import com.ram.rupia.api.post_request.CustomerRequestBody;
 import com.ram.rupia.api.post_request.VerifyOtpRequest;
 import com.ram.rupia.api.post_request.WalletReloadRequest;
 import com.ram.rupia.config.CustomerMapper;
 import com.ram.rupia.config.WalletMapper;
-import com.ram.rupia.api.dto.CustomerDTO;
-import com.ram.rupia.api.dto.CustomerWithWalletDTO;
-import com.ram.rupia.api.dto.OtpDTO;
-import com.ram.rupia.api.dto.TransactionDTO;
 import com.ram.rupia.domain.enums.Gender;
 import com.ram.rupia.domain.enums.OtpType;
 import com.ram.rupia.api.response.CustomerTransactionResponse;
@@ -19,6 +16,8 @@ import com.ram.rupia.service.customer.CustomerServiceImpl;
 import com.ram.rupia.service.transaction.TransactionServiceImpl;
 import com.ram.rupia.service.wallet.WalletServiceImpl;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -29,6 +28,7 @@ import java.util.List;
 @SpringBootTest
 class RupiaApplicationTests {
 
+    private static final Logger log = LoggerFactory.getLogger(RupiaApplicationTests.class);
     @Autowired
     private CustomerServiceImpl customerService;
 
@@ -74,7 +74,7 @@ class RupiaApplicationTests {
     @Test
     void approveCustomerAndCreateWalletTest() {
         //We are going to add a new wallet to the customer: 1
-        CustomerDTO customerDTO = customerService.approveCustomerRegistration(1L);
+        CustomerDTO customerDTO = customerService.approveCustomerRegistration(4L);
         System.out.println("Customer approved and wallet created : " + customerDTO);
     }
 
@@ -122,7 +122,7 @@ class RupiaApplicationTests {
     void OtpVerificationForLoginTest() {
         //Verify Otp for login
         VerifyOtpRequest request = new VerifyOtpRequest("874781", "ee037317-13ef-4e94-a7d8-4c04f1f10503", 1L, OtpType.LOGIN);
-        CustomerDTO dto = authService.verifyLoginOtp(request);
+        LoginDTO dto = authService.verifyLoginOtp(request);
         System.out.println("OTPVerify :" + dto);
     }
 

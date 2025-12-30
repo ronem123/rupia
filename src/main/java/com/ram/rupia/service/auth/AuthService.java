@@ -2,6 +2,7 @@ package com.ram.rupia.service.auth;
 
 
 import com.ram.rupia.api.dto.CustomerDTO;
+import com.ram.rupia.api.dto.LoginDTO;
 import com.ram.rupia.api.dto.OtpDTO;
 import com.ram.rupia.domain.enums.OtpType;
 import com.ram.rupia.api.post_request.VerifyOtpRequest;
@@ -16,5 +17,5 @@ public interface AuthService {
 
     OtpDTO resendOtp(String otpRef, OtpType otpType);
 
-    CustomerDTO verifyLoginOtp(VerifyOtpRequest request);
+    LoginDTO verifyLoginOtp(VerifyOtpRequest request);
 }

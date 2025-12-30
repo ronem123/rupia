@@ -4,9 +4,12 @@ import com.ram.rupia.config.CustomerMapper;
 import com.ram.rupia.api.dto.CustomerDTO;
 import com.ram.rupia.api.dto.CustomerWithWalletDTO;
 import com.ram.rupia.domain.entity.Customer;
+import com.ram.rupia.domain.entity.UserEntity;
 import com.ram.rupia.domain.enums.CustomerStatus;
 import com.ram.rupia.api.post_request.CustomerRequestBody;
+import com.ram.rupia.domain.enums.UserRole;
 import com.ram.rupia.repository.CustomerRepository;
+import com.ram.rupia.repository.UserRepository;
 import com.ram.rupia.service.wallet.WalletServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final CustomerMapper customerMapper;
 
     private final WalletServiceImpl walletService;
@@ -50,10 +54,21 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.toCustomerDTO(customer);
     }
 
+    @Transactional
     @Override
     public CustomerDTO createNewCustomer(CustomerRequestBody requestBody) {
         //create a new entity required by the repository for saving a new customer
         Customer newCustomer = customerMapper.toCustomer(requestBody);
+
+        //first save the user to user_tbl
+        UserEntity user = UserEntity.builder()
+                .mobileNumber(requestBody.getContact())
+                .userRole(UserRole.CUSTOMER)
+                .build();
+
+        user = userRepository.save(user);
+
+        newCustomer.setUser(user);
 
         //return customer after saving the new customer in DB
         Customer customer = customerRepository.save(newCustomer);

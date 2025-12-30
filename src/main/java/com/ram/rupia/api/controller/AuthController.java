@@ -1,7 +1,7 @@
 package com.ram.rupia.api.controller;
 
 
-import com.ram.rupia.api.dto.CustomerDTO;
+import com.ram.rupia.api.dto.LoginDTO;
 import com.ram.rupia.api.dto.OtpDTO;
 import com.ram.rupia.api.post_request.CustomerLoginRequestBody;
 import com.ram.rupia.api.post_request.VerifyOtpRequest;
@@ -31,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/otp-verify")
-    public ResponseEntity<ApiResponse<CustomerDTO>> verifyOtp(@RequestBody VerifyOtpRequest body) {
+    public ResponseEntity<ApiResponse<LoginDTO>> verifyOtp(@RequestBody VerifyOtpRequest body) {
         return ResponseEntity.ok(new ApiResponse<>(true, "success", authService.verifyLoginOtp(body)));
     }
 }
