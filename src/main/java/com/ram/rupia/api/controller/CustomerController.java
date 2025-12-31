@@ -2,6 +2,7 @@ package com.ram.rupia.api.controller;
 
 import com.ram.rupia.api.dto.CustomerDTO;
 import com.ram.rupia.api.post_request.CustomerRequestBody;
+import com.ram.rupia.api.response.ApiResponse;
 import com.ram.rupia.service.customer.CustomerService;
 import com.ram.rupia.service.kafka.KafkaProducerService;
 import com.rupia.kafa.KafkaTopics;
@@ -36,10 +37,16 @@ public class CustomerController {
         List<CustomerDTO> customers = customerService.getCustomers();
 
 
-        WalletReloadEvent walletReloadEvent = new WalletReloadEvent("Wallet Reload");
-        kafkaProducerService.publishEvent(KafkaTopics.TRANSACTION_TOPIC, walletReloadEvent);
+//        WalletReloadEvent walletReloadEvent = new WalletReloadEvent("Wallet Reload");
+//        kafkaProducerService.publishEvent(KafkaTopics.TRANSACTION_TOPIC, walletReloadEvent);
 
         return ResponseEntity.status(HttpStatus.OK).body(customers);
+    }
+
+    @PostMapping("approve/{id}")
+    public ResponseEntity<ApiResponse<CustomerDTO>> approveCustomer(@PathVariable("id") Long id) {
+        CustomerDTO customerDTO = customerService.approveCustomerRegistration(id);
+        return ResponseEntity.ok(new ApiResponse<>(true, "approved", customerDTO));
     }
 
     @GetMapping("/{id}")

@@ -43,6 +43,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         //Read authorization header
         String authHeader = request.getHeader("Authorization");
 
+        System.out.println("JWT-TOKEN-HEADER:" + authHeader);
         //check if authHeader; if null or no Bearer let it continue without authorization
         //This could be public endpoints
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -52,6 +53,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         //if the jwt token is not null or has to be authorized, we check extract the jwt from request header
         String accessToken = authHeader.substring(7);
+        System.out.println("JWT-TOKEN:" + accessToken);
 
         try {
             //validate token signature and expiry time

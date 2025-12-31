@@ -21,7 +21,9 @@ import java.util.List;
 public interface TransactionService {
     InitiateTransactionResponse loadMoneyToWallet(WalletReloadRequest body);
 
-    TransactionDTO confirmTransaction(ConfirmTransactionRequest request);
+    TransactionDTO transactionConfirm(ConfirmTransactionRequest request);
+
+    TransactionDTO reloadConfirm(ConfirmTransactionRequest request);
 
     OtpDTO resendOtp(String otpRef, OtpType otpType);
 
