@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,6 +35,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtAuthService jwtAuthService;
     private final UserRepository userRepository;
+    private final HandlerExceptionResolver handlerExceptionResolver;
 
     @Override
     protected void doFilterInternal(
@@ -44,7 +46,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String authHeader = request.getHeader("Authorization");
 
         System.out.println("JWT-TOKEN-HEADER:" + authHeader);
-        //check if authHeader; if null or no Bearer let it continue without authorization
+        //check if authHeader; is null or no Bearer let it continue without authorization
         //This could be public endpoints
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
@@ -75,7 +77,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     new UsernamePasswordAuthenticationToken(
                             user,
                             null,
-                            List.of(new SimpleGrantedAuthority("ROLE_" + user.getUserRole().name()))
+//                            List.of(new SimpleGrantedAuthority("ROLE_" + user.getUserRole().name()))
+                            user.getAuthorities()
                     );
 
             //set authenticationToken in SecurityContext
@@ -85,6 +88,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             //clear context(EntryPoint / AccessDeniedHandler will handle response)
             //we have created already and is in WebSecurityConfig.java
             SecurityContextHolder.clearContext();
+            handlerExceptionResolver.resolveException(request, response, null, e);
         }
 
         //continue filter chain

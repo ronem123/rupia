@@ -1,9 +1,9 @@
 package com.ram.rupia.service.auth;
 
 
+import com.ram.rupia.api.dto.AdminLoginDTO;
 import com.ram.rupia.api.dto.LoginDTO;
 import com.ram.rupia.config.CustomerMapper;
-import com.ram.rupia.api.dto.CustomerDTO;
 import com.ram.rupia.api.dto.OtpDTO;
 import com.ram.rupia.domain.entity.Customer;
 import com.ram.rupia.domain.entity.Otp;
@@ -12,10 +12,12 @@ import com.ram.rupia.domain.enums.OtpType;
 import com.ram.rupia.api.post_request.VerifyOtpRequest;
 import com.ram.rupia.exception.BadRequestException;
 import com.ram.rupia.repository.CustomerRepository;
+import com.ram.rupia.repository.UserRepository;
 import com.ram.rupia.service.jwt.JwtAuthService;
 import com.ram.rupia.service.otp.OtpServiceImpl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,9 +29,24 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final OtpServiceImpl otpService;
     private final CustomerMapper customerMapper;
     private final JwtAuthService jwtAuthService;
+
+    @Override
+    public AdminLoginDTO loginSuperAdmin(String mobileNumber) {
+        UserEntity entity = userRepository.findByMobileNumber(mobileNumber).orElseThrow(() -> new UsernameNotFoundException("Sorry! user not found"));
+        String token = jwtAuthService.createToken(entity);
+        return new AdminLoginDTO(entity.getMobileNumber(), entity.getUsername(), entity.getUserRole(), token);
+    }
+
+    @Override
+    public AdminLoginDTO loginAdmin(String mobileNumber) {
+        UserEntity entity = userRepository.findByMobileNumber(mobileNumber).orElseThrow(() -> new UsernameNotFoundException("Sorry! user not found"));
+        String token = jwtAuthService.createToken(entity);
+        return new AdminLoginDTO(entity.getMobileNumber(), entity.getUsername(), entity.getUserRole(), token);
+    }
 
     @Override
     public OtpDTO loginUser(String mobileNumber) {

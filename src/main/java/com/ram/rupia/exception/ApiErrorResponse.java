@@ -9,10 +9,12 @@
 
 package com.ram.rupia.exception;
 
+import org.springframework.http.HttpStatus;
+
 import java.time.Instant;
 
 public record ApiErrorResponse(Boolean status,
-                               String errorCode,
+                               HttpStatus errorCode,
                                String message,
                                Instant time) {
 }

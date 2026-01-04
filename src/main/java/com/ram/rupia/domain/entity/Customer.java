@@ -20,10 +20,18 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "customer_tbl", uniqueConstraints = {@UniqueConstraint(name = "unique_mobile_id_no", columnNames = {"customer_mob_no", "customer_id_number"})},
+@Table(name = "customer_tbl",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "unique_mobile_id_no",
+                        columnNames = {"customer_mob_no", "customer_id_number"}
+                )},
 
         //indexes help during filter and search
-        indexes = {@Index(name = "idx_customer_id_number", columnList = "customer_id_number"), @Index(name = "idx_customer_dob", columnList = "customer_date_of_birth")})
+        indexes = {
+                @Index(name = "idx_customer_id_number", columnList = "customer_id_number"),
+                @Index(name = "idx_customer_dob", columnList = "customer_date_of_birth")
+        })
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +82,6 @@ public class Customer {
     private LocalDate createdAt;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "auth_user")
+    @JoinColumn(name = "auth_user", nullable = false)
     private UserEntity user;
 }
