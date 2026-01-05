@@ -16,4 +16,5 @@ import lombok.Setter;
 public class InitiateTransactionResponse {
     private String transactionRef;
     private String otpRef;
+    private String otp;
 }

@@ -10,6 +10,7 @@ import com.ram.rupia.exception.BadRequestException;
 import com.ram.rupia.api.post_request.VerifyOtpRequest;
 import com.ram.rupia.repository.CustomerRepository;
 import com.ram.rupia.repository.OtpRepository;
+import com.ram.rupia.service.jwt.JwtAuthService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

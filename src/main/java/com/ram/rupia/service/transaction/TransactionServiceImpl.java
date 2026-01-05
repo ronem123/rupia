@@ -71,19 +71,20 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.save(transaction);
 
         //3. generate otp for this transaction
-        OtpDTO otpDTO = otpService.generateOtp(wallet.getCustomer().getId(), OtpType.TRANSACTION);
+        OtpDTO otpDTO = otpService.generateOtp(wallet.getCustomer().getId(), OtpType.RELOAD);
 
         //4. return transactionRef + otpRef
         return InitiateTransactionResponse.builder()
                 .transactionRef(transaction.getReferenceNo())
                 .otpRef(otpDTO.getOtpRef())
+                .otp(otpDTO.getOtp())
                 .build();
 
     }
 
     @Transactional
     @Override
-    public TransactionDTO confirmTransaction(ConfirmTransactionRequest request) {
+    public TransactionDTO transactionConfirm(ConfirmTransactionRequest request) {
         VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest(request.getOtp(), request.getOtpRef(), request.getCustomerId(), OtpType.TRANSACTION);
         //1. Verify OTP first
         Boolean isOtpVerified = otpService.verifyOtp(verifyOtpRequest);
@@ -108,6 +109,35 @@ public class TransactionServiceImpl implements TransactionService {
         //5. Return Transaction DTO
         return transactionMapper.toTransactionDTO(transaction);
     }
+
+    @Transactional
+    @Override
+    public TransactionDTO reloadConfirm(ConfirmTransactionRequest request) {
+        VerifyOtpRequest verifyOtpRequest = new VerifyOtpRequest(request.getOtp(), request.getOtpRef(), request.getCustomerId(), OtpType.RELOAD);
+        //1. Verify OTP first
+        Boolean isOtpVerified = otpService.verifyOtp(verifyOtpRequest);
+        if (!isOtpVerified) {
+            throw new BadRequestException("Invalid OTP");
+        }
+
+        //2. fetch PENDING transaction with provided transactionRef;
+        Transaction transaction = transactionRepository.findByReferenceNo(request.getTransactionRef()).orElseThrow(
+                () -> new BadRequestException("Invalid Transaction Reference no"));
+
+        if (transaction.getTransactionStatus() != TransactionStatus.PENDING) {
+            throw new BadRequestException("Transaction already processed");
+        }
+
+        //3. Update wallet balance
+        walletRepository.addBalance(transaction.getWallet().getId(), transaction.getAmount());
+
+        //4. Update transaction to SUCCESS
+        transaction.setTransactionStatus(TransactionStatus.SUCCESS);
+
+        //5. Return Transaction DTO
+        return transactionMapper.toTransactionDTO(transaction);
+    }
+
 
     @Transactional
     @Override

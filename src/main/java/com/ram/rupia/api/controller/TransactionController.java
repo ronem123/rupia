@@ -27,12 +27,18 @@ public class TransactionController {
     @PostMapping("/reload")
     public ResponseEntity<ApiResponse<InitiateTransactionResponse>> reloadWallet(@RequestBody WalletReloadRequest request) {
         InitiateTransactionResponse initiateTransactionResponse = transactionService.loadMoneyToWallet(request);
-        return ResponseEntity.ok(new ApiResponse<>(true, "Wallet reload successfully", initiateTransactionResponse));
+        return ResponseEntity.ok(new ApiResponse<>(true, "success", initiateTransactionResponse));
     }
 
-    @PostMapping("/confirm")
-    public ResponseEntity<ApiResponse<TransactionDTO>> confirmTransaction(@RequestBody ConfirmTransactionRequest request) {
-        TransactionDTO transactionDTO = transactionService.confirmTransaction(request);
+    @PostMapping("/reload_confirm")
+    public ResponseEntity<ApiResponse<TransactionDTO>> reloadConfirm(@RequestBody ConfirmTransactionRequest request) {
+        TransactionDTO transactionDTO = transactionService.reloadConfirm(request);
+        return ResponseEntity.ok(new ApiResponse<>(true, "Wallet reload successful", transactionDTO));
+    }
+
+    @PostMapping("/transaction_confirm")
+    public ResponseEntity<ApiResponse<TransactionDTO>> transactionConfirm(@RequestBody ConfirmTransactionRequest request) {
+        TransactionDTO transactionDTO = transactionService.transactionConfirm(request);
         return ResponseEntity.ok(new ApiResponse<>(true, "Cannot confirm the transaction", transactionDTO));
     }
 }

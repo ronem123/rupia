@@ -1,11 +1,16 @@
 package com.ram.rupia.exception;
 
 
-import com.ram.rupia.api.response.ApiResponse;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.Instant;
 
 /**
  * Created by Ram Mandal on 04/12/2025
@@ -15,15 +20,48 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ApiResponse<Void>> handleBadRequest(BadRequestException ex) {
-        ApiResponse<Void> response = new ApiResponse<>(false, ex.getMessage(), null);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    //Http-Status: 400
+    @ExceptionHandler({BadRequestException.class, IllegalArgumentException.class})
+    public ResponseEntity<ApiErrorResponse> handleBadRequest(BadRequestException ex) {
+        ApiErrorResponse errorResponse = new ApiErrorResponse(false, HttpStatus.BAD_REQUEST, ex.getMessage(), Instant.now());
+        return new ResponseEntity<>(errorResponse, errorResponse.errorCode());
     }
 
+    // Http-Status: 401
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiErrorResponse> handleAuthenticationException(AuthenticationException ae) {
+        ApiErrorResponse errorResponse = new ApiErrorResponse(false, HttpStatus.UNAUTHORIZED, "Authentication failed: " + ae.getMessage(), Instant.now());
+        return new ResponseEntity<>(errorResponse, errorResponse.errorCode());
+    }
+
+    // Http-Status: 401
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ApiErrorResponse> handleJwtException(JwtException jex) {
+        ApiErrorResponse errorResponse = new ApiErrorResponse(false, HttpStatus.UNAUTHORIZED, "Invalid JWT token: " + jex.getMessage(), Instant.now());
+        return new ResponseEntity<>(errorResponse, errorResponse.errorCode());
+    }
+
+    // Http-Status: 403
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiErrorResponse> handleAccessDeniedException(AccessDeniedException ae) {
+        ApiErrorResponse errorResponse = new ApiErrorResponse(false, HttpStatus.FORBIDDEN, "You do not have permission to access this resource", Instant.now());
+        return new ResponseEntity<>(errorResponse, errorResponse.errorCode());
+    }
+
+    // Http-Status: 404
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleUserNameNotFoundException(UsernameNotFoundException ex) {
+        ApiErrorResponse errorResponse = new ApiErrorResponse(false, HttpStatus.NOT_FOUND, "User not found: " + ex.getMessage(), Instant.now());
+        return new ResponseEntity<>(errorResponse, errorResponse.errorCode());
+    }
+
+    //Http-status: 409
+//    @ExceptionHandler(HttpStatus.CONFLICT)
+
+    // Http-Status: 500
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
-        ApiResponse<Void> response = new ApiResponse<>(false, "Something went wrong", null);
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+    public ResponseEntity<ApiErrorResponse> handleGenericException(Exception ex) {
+        ApiErrorResponse errorResponse = new ApiErrorResponse(false, HttpStatus.INTERNAL_SERVER_ERROR, "An unexpected error occurred." + ex.getMessage(), Instant.now());
+        return new ResponseEntity<>(errorResponse, errorResponse.errorCode());
     }
 }

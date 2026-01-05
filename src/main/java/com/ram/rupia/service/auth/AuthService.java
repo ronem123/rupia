@@ -1,8 +1,10 @@
 package com.ram.rupia.service.auth;
 
 
-import com.ram.rupia.api.dto.CustomerDTO;
+import com.ram.rupia.api.dto.AdminLoginDTO;
+import com.ram.rupia.api.dto.LoginDTO;
 import com.ram.rupia.api.dto.OtpDTO;
+import com.ram.rupia.domain.entity.UserEntity;
 import com.ram.rupia.domain.enums.OtpType;
 import com.ram.rupia.api.post_request.VerifyOtpRequest;
 
@@ -12,9 +14,13 @@ import com.ram.rupia.api.post_request.VerifyOtpRequest;
  * @System: Apple M1 Pro
  */
 public interface AuthService {
+    AdminLoginDTO loginSuperAdmin(String mobileNumber);
+
+    AdminLoginDTO loginAdmin(String mobileNumber);
+
     OtpDTO loginUser(String mobileNumber);
 
     OtpDTO resendOtp(String otpRef, OtpType otpType);
 
-    CustomerDTO verifyLoginOtp(VerifyOtpRequest request);
+    LoginDTO verifyLoginOtp(VerifyOtpRequest request);
 }
