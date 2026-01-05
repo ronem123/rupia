@@ -13,6 +13,7 @@ import com.ram.rupia.domain.entity.UserEntity;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ import java.util.UUID;
  * Class responsible for jwt token activity
  */
 @Service
+@RequiredArgsConstructor
 public class JwtAuthService {
 
     //Token Types
@@ -34,25 +36,32 @@ public class JwtAuthService {
     private static final String ACCESS = "ACCESS";
     private static final String REFRESH = "REFRESH";
 
+    //secret
+    @Value("${jwt.access-secret}")
+    private String accessSecret;
+
+    @Value("${jwt.refresh-secret}")
+    private String refreshSecret;
+
     //Access Token
-    private final SecretKey accessTokenKey;
+    private SecretKey accessTokenKey;
     // expire after 5 minutes
     private static final long ACCESS_TOKEN_EXPIRATION_MS = 5 * 60 * 1000; // 5 min
 
     //Refresh Token
-    private final SecretKey refreshTokenKey;
+    private SecretKey refreshTokenKey;
     // expires after 7 days
     private static final long REFRESH_TOKEN_EXPIRATION_MS = 7L * 24 * 60 * 60 * 1000;
 
 
     //construction injection for the access and refresh secret
     //it will be picked from application.yaml file
-    public JwtAuthService(
-            @Value("${jwt.access-secret}") String accessSecret,
-            @Value("${jwt.refresh-secret}") String refreshSecret) {
+    @PostConstruct
+    public void init() {
         this.accessTokenKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(accessSecret));
         this.refreshTokenKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(refreshSecret));
     }
+
 
 
     //Method to create JWT token

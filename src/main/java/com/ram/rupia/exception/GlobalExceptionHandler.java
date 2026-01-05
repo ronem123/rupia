@@ -55,6 +55,9 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, errorResponse.errorCode());
     }
 
+    //Http-status: 409
+//    @ExceptionHandler(HttpStatus.CONFLICT)
+
     // Http-Status: 500
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiErrorResponse> handleGenericException(Exception ex) {

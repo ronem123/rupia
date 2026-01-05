@@ -11,5 +11,8 @@ package com.ram.rupia.api.dto;
 
 import com.ram.rupia.domain.enums.UserRole;
 
-public record AdminLoginDTO(String mobileNumber, String userName, UserRole userRole, String otpRef) {
+public record AdminLoginDTO(String mobileNumber,
+                            String userName,
+                            UserRole userRole,
+                            String accessToken) {
 }
