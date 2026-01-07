@@ -77,38 +77,7 @@ public class CustomerServiceImpl implements CustomerService {
         return customerMapper.toCustomerDTO(customer);
     }
 
-    @Override
-    public void deleteCustomer(Long id) {
-        if (!customerRepository.existsById(id)) {
-            throw new IllegalArgumentException("Sorry! but customer with " + id + " does not exist");
-        }
-        customerRepository.deleteById(id);
-    }
 
-    @Transactional
-    @Override
-    public CustomerDTO approveCustomerRegistration(Long userId) {
-        Customer customer = customerRepository.findById(userId).orElseThrow(() ->
-                new RuntimeException("Sorry ! but user not found"));
-
-        walletService.createNewWallet(customer);
-        /*
-         * We do not need to explicitly save the customer, as we are under the @Transactional state
-         * whenever any update happens to the customer, dirty checking will be there, and if any changes
-         * It will automatically update it.
-         * Note: since we are working on the same customer object. So, no new row will be inserted. JPA will manage it
-         * automatically. like this
-         * UPDATE customer_tbl
-         * SET customer_status = 'ACTIVE'
-         * WHERE id = <customer_id>;
-         */
-
-        if (customer.getStatus() == CustomerStatus.KYC_PENDING) {
-            customer.setStatus(CustomerStatus.ACTIVE);
-        }
-        return customerMapper.toCustomerDTO(customer);
-
-    }
 
     @Transactional
     @Override

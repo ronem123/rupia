@@ -9,13 +9,33 @@
 
 package com.ram.rupia.api.controller;
 
+import com.ram.rupia.api.dto.CustomerDTO;
+import com.ram.rupia.api.response.ApiResponse;
+import com.ram.rupia.service.admin.AdminServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/admin")
 @CrossOrigin(origins = "http://localhost:3000")//remove once the front end is hosted on a real web server
+@RequiredArgsConstructor
 public class AdminController {
+
+    private final AdminServiceImpl adminService;
+
+
+    @PostMapping("/approve/{id}")
+    ResponseEntity<ApiResponse<CustomerDTO>> approveCustomer(@PathVariable("id") Long id) {
+        CustomerDTO customerDto = adminService.approveCustomer(id);
+        return new ResponseEntity<>(new ApiResponse<>(true, "Approved", customerDto), HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable("id") Long id) {
+        adminService.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
+    }
 }

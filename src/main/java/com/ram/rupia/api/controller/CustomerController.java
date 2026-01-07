@@ -43,11 +43,6 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customers);
     }
 
-    @PostMapping("approve/{id}")
-    public ResponseEntity<ApiResponse<CustomerDTO>> approveCustomer(@PathVariable("id") Long id) {
-        CustomerDTO customerDTO = customerService.approveCustomerRegistration(id);
-        return ResponseEntity.ok(new ApiResponse<>(true, "approved", customerDTO));
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<CustomerDTO> getCustomer(@PathVariable("id") Long id) {
@@ -59,12 +54,6 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createNewCustomer(requestBody));
     }
 
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable("id") Long id) {
-        customerService.deleteCustomer(id);
-        return ResponseEntity.noContent().build();
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable("id") Long customerId, @RequestBody CustomerRequestBody body) {

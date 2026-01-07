@@ -19,11 +19,6 @@ public interface CustomerService {
 
     CustomerDTO createNewCustomer(CustomerRequestBody requestBody);
 
-    void deleteCustomer(Long id);
-
-    //method consumed by BO
-    CustomerDTO approveCustomerRegistration(Long userId);
-
     CustomerDTO updateCustomer(Long customerId, CustomerRequestBody body);
 
     List<CustomerWithWalletDTO> getCustomerWithWalletInfo(Long customerId);
