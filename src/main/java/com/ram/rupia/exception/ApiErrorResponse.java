@@ -9,10 +9,12 @@
 
 package com.ram.rupia.exception;
 
+import lombok.Builder;
 import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
 
+@Builder
 public record ApiErrorResponse(Boolean status,
                                HttpStatus errorCode,
                                String message,

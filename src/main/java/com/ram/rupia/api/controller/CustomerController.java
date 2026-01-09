@@ -7,6 +7,7 @@ import com.ram.rupia.service.customer.CustomerService;
 import com.ram.rupia.service.kafka.KafkaProducerService;
 import com.rupia.kafa.KafkaTopics;
 import com.rupia.kafa.WalletReloadEvent;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +51,7 @@ public class CustomerController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<CustomerDTO> createNewCustomer(@RequestBody CustomerRequestBody requestBody) {
+    public ResponseEntity<CustomerDTO> createNewCustomer(@Valid @RequestBody CustomerRequestBody requestBody) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createNewCustomer(requestBody));
     }
 
