@@ -18,7 +18,6 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @RequiredArgsConstructor
 public class KafkaProducerService {
-
     private final KafkaTemplate<String, TransactionEvent> eventKafkaTemplate;
 
     public void publishEvent(String topic, TransactionEvent event) {

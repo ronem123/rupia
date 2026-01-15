@@ -2,11 +2,8 @@ package com.ram.rupia.api.controller;
 
 import com.ram.rupia.api.dto.CustomerDTO;
 import com.ram.rupia.api.post_request.CustomerRequestBody;
-import com.ram.rupia.api.response.ApiResponse;
 import com.ram.rupia.service.customer.CustomerService;
 import com.ram.rupia.service.kafka.KafkaProducerService;
-import com.rupia.kafa.KafkaTopics;
-import com.rupia.kafa.WalletReloadEvent;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
